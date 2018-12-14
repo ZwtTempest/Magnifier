@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+ <head>
+	<meta charset="UTF-8">
+	<title>在当前显示区范围内实现点不到的小方块</title>
+	<style>
+		body{padding:0;margin:0;}
+		#d1{
+			width: 200px;
+			height: 150px;
+			background: url(2.jpg) no-repeat;
+			margin: 50px 200px;
+			position: relative;
+		}
+		#d2{
+			width: 70px;
+			height: 70px;
+			background: rgba(0,0,0,0.5);
+			position: absolute;
+			display: none;
+		}
+		#d3{
+			width: 140px;
+			height: 140px;
+			background: url(2.jpg) no-repeat;
+			background-size: 400px;
+			position: absolute;
+			top: 50px;
+			left: 400px;
+			display: none;
+		}
+		#d4{
+			width: 200px;
+			height: 150px;
+			position: absolute;
+			top: 50px;
+			left: 200px;
+		}
+	</style>
+	<script src="jquery-1.11.3.js"></script>
+ </head>
+ <body>
+	<div id="d1">    <!-- 放要放大的图片 -->
+		<div id="d2"></div>  <!-- 随鼠标移动而移动的黑色区域 -->
+	</div>
+	<div id="d3"></div>  <!-- 放大后图片所显示的区域 -->
+	<div id="d4"></div>  <!-- 实际触发事件的div -->
+  <script>
+		$("#d4")
+			//鼠标移入显示跟随鼠标移动的div和显示放大后图片的div
+			.mouseenter(function(){
+				$("#d2").css("display","block");
+				$("#d3").css("display","block");
+			})
+			//鼠标移出隐藏跟随鼠标移动的div和隐藏放大后图片的div
+			.mouseleave(function(){
+				$("#d2").css("display","none");
+				$("#d3").css("display","none");
+			})
+			//e.offsetX和e.offsetY得到当前鼠标的位置，根据得到的数字来设置大图片随鼠标移动而显示不同的区域（利用背景的background-positiion）
+			.mousemove(function(e){
+				console.log(e.offsetX,e.offsetY);
+				$("#d2")
+					.css("top",(e.offsetY-35)+"px")
+					.css("left",(e.offsetX-35)+"px");
+				$("#d3")
+					.css("backgroundPosition",(70-2*e.offsetX)+"px "+(70-2*e.offsetY)+"px");
+			})
+  </script>
+ </body>
+</html>
